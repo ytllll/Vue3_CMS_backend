@@ -13,7 +13,7 @@ class MenuController {
 
   async create(ctx, next) {
     const { name, icon, type, url, parentId, permission } = ctx.request.body;
-    console.log(ctx.request.body)
+    // console.log(ctx.request.body)
     const result = await menuService.create(name, icon, type, url, parentId, permission);
     ctx.body = {
       code: 200,

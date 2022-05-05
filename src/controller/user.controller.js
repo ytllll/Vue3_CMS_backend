@@ -60,7 +60,7 @@ class UserController {
     const { userId } = ctx.params;
     // 2.获取修改的信息
     const { name, realname, cellphone, roleId, departmentId } = ctx.request.body;
-    console.log(name, realname, cellphone, roleId, departmentId)
+    // console.log(name, realname, cellphone, roleId, departmentId)
     const { oldPassword, newPassword1, newPassword2 } = ctx.request.body;
     // 3.修改数据库内容
     if(oldPassword || newPassword1 || newPassword2) {

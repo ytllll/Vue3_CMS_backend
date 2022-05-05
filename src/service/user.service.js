@@ -14,6 +14,12 @@ class UserService {
     return result[0];
   }
 
+  async getUserByPhoneNumber(number) {
+    const statement = `SELECT * FROM user WHERE cellphone = ?;`;
+    const result = await connection.execute(statement, [number]);
+    return result[0];
+  }
+
   async getUserById(userId) {
     const statement = `
     SELECT u.id id, u.name name, u.realname realname, u.cellphone cellphone, u.enable enable, u.avatar_url avatar_url,
@@ -71,9 +77,15 @@ class UserService {
     if(newPassword1 !== newPassword2) {
       return false
     }
-    const statement = `UPDATE user SET password = ? WHERE id = ? AND password = ?`;
-    const [result] = await connection.execute(statement, [newPassword1, userId, oldPassword]);
-    return !!result ? true : false;
+    const statement1 = `SELECT * FROM user WHERE id = ?;`;
+    const [result1] = await connection.execute(statement1, [userId]);
+    if(result1[0].password === oldPassword) {
+      const statement = `UPDATE user SET password = ? WHERE id = ?;`;
+      await connection.execute(statement, [newPassword1, userId]);
+      return true
+    } else {
+      return false
+    }
   }
 
   async remove(userId) {

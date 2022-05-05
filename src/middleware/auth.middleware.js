@@ -34,6 +34,25 @@ const verifyLogin = async (ctx, next) => {
   await next();
 }
 
+const verifyPhoneLogin = async (ctx, next) => {
+  // 1.获取手机号码和验证码
+  const { number, code } = ctx.request.body;
+  // 2.判断手机号码和验证码是否为空
+  if(!number || !code) {
+    const error = new Error(errorType.PHONE_OR_CODE_IS_REQUIRED);
+    return ctx.app.emit('error', error, ctx);
+  }
+  // 3.判断用户是否存在
+  const result = await userService.getUserByPhoneNumber(number);
+  const user = result[0];
+  if(!user) {
+    const error = new Error(errorType.PHONE_DOES_NOT_EXISTS);
+    return ctx.app.emit('error', error, ctx);
+  }
+  ctx.user = user;
+  await next();
+}
+
 const verifyAuth = async (ctx, next) => {
   console.log("验证授权的middleware");
   // 1.获取token
@@ -77,5 +96,6 @@ const verifyAuth = async (ctx, next) => {
 
 module.exports = {
   verifyLogin,
-  verifyAuth
+  verifyAuth,
+  verifyPhoneLogin
 }
