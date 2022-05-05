@@ -7,8 +7,8 @@ const { Config } = require('@alicloud/openapi-client');
 const errorType = require('../constants/error-types');
 
 // ali的accessKey
-const accessKeyId = 'LTAI5tAhPNmJhACvTuPDnyXC'
-const secretAccessKey = 'f7Vbh18l9UOldJkjCDeRd81oMrqowu'
+const accessKeyId = '自己的accessKeyId'
+const secretAccessKey = '自己的secretAccessKey'
 // 此次登录的短信验证码
 let currentPhone = ''
 let verifyCode = ''
